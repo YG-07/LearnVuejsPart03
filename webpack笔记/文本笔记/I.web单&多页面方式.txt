@@ -1,0 +1,18 @@
+﻿SPA（单页面应用）和MPA（多页面应用）
+1、单页Web应用（single page web application，SPA）
+只有一个WEB主页面的应用，公共资源(js、css等)仅需加载一次，所有的内容都包含在主页面，对每一个功能模块组件化。单页应用跳转，就是切换相关组件，仅刷新局部资源。
+页面跳转： js渲染
+优点： 页面切换快
+缺点： 首屏时间稍慢，SEO差
+常用于PC端官网、购物等网站。
+技术栈：JQ+MVC
+
+2、多页Web应用（multi page web application，MPA）
+有多个独立的页面的应用，每个公共资源(js、css等)需选择性重新加载，多页面跳转刷新所有资源。
+页面跳转： 返回HTML
+优点： 首屏时间快，SEO效果好
+缺点： 页面切换慢
+常用于 app 或 客户端等
+技术栈：Angular
+
+https://www.cnblogs.com/moonstars/p/12540657.html

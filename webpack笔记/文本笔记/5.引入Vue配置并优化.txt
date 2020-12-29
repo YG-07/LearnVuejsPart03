@@ -1,0 +1,72 @@
+五、引入Vue.js 配置并优化(83-85)
+1.8.依赖Vue模块：
+注：vue的安装方式：1.直接下载Vue.js，2.CDN引入，3.npm安装Vue模块
+  npm install vue --save
+import App from './vue/App.vue'
+new Vue({
+  el:'#app',
+  //component注册组件，template使用组件,单标签也可
+  template:'<App/>',
+  components:{
+    App
+  }
+})
+
+配置：//vue
+      {
+        test: /\.vue$/,
+        use:{
+          loader:'vue-loader'
+        }
+      }
+问题解决：
+    runtime-only: 不能有任何template
+    runtime-compiler: 可以使用template
+  指定打包的版本，添加resolve属性，设置别名alias
+//vue的template构建解决方案，配置根属性
+  resolve:{
+    //可省略的后缀
+    extensions:['.js','.css','.vue'],
+    //alias:别名
+    alias:{
+      //$表示结尾,vue.esm(es module)包含compiler
+      'vue$':'vue/dist/vue.esm.js'
+    }
+  },
+
+2.对Vue实例进行优化
+template和el属性同时存在，前者会替换后者
+新建app.js
+//导出App组件
+export default {
+  template: `
+    <div>
+      <h2>{{message}}</h2>
+      <button @click="btnClick">按钮</button>
+      <h2>{{name}}</h2>
+    </div>
+  `,
+  ...
+}
+main.js导入
+import App from './vue/app.js
+
+3.Vue的最终解决方案.vue文件
+9.对.vue文件封装，安装vue-loader和vue-template-compiler，加载和编译
+  npm install --save-dev vue-loader@13.0.0 vue-template-compiler@2.5.21
+import App from './vue/App.vue'
+  .vue文件将template、script、style分离成3个标签
+配置//vue
+      {
+        test: /\.vue$/,
+        use:{
+          loader:'vue-loader'
+        }
+      }
+
+
+4.关于后缀的省略
+resolve:{
+    //可省略的后缀
+    extensions:['.js','.css','.vue'],
+}

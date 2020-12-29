@@ -1,0 +1,29 @@
+三、配置①webpack.config.js和②package.json （78）
+1.使用：npm init  ，初始化配置文件，生成②
+2.在①中：
+//node导入path模块
+const path=require('path')
+module.exports={
+  //入口
+  entry:'./src/main.js',
+  //出口，绝对路径
+  output:{
+    //path模块的resolve函数拼接：全局变量当前文件路径+'dist'文件夹
+    path:path.resolve(__dirname,'dist'),
+    filename:'bundle.js',
+    publicPath:'dist/'
+  },
+  module: {
+    rules: [...]
+}
+3.在②中：
+//添加映射脚本
+"scripts": {
+  "build": "webpack",
+   "install": "npm install webpack@3.6.0 --save-dev"
+}
+4.执行代码
+在index.html在暂时需要<script src="./dist/bundle.js"></script>
+  安装本地webpack：npm run install
+  本地构建指令：npm run build
+注：直接在cmd中使用webpack指令都是优先使用全局的，②的脚本优先寻找本地的node_modules/.bin的命令，所以所以build

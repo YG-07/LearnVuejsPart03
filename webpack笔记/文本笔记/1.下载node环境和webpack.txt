@@ -1,0 +1,10 @@
+视频链接 (页码)
+https://www.bilibili.com/video/BV15741177Eh?p=页码
+
+webpack基本配置和使用
+一、下载node环境(自带管理工具npm)和webpack  （76）
+1.下载node并配置环境：http://nodejs.cn/download/
+  使用：node -v 和 npm -v   ，查看node安装成功？
+2.使用npm下载指定版本webpack, -g表示全局安装, --save-dev是开发时依赖
+  使用：npm install webpack@3.6.0 -g
+  使用：webpack -v  ，查看webpack安装成功？

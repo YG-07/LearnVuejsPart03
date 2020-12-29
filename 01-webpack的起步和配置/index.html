@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div>
+    <div class="d1">
+      less样式
+    </div>
+    <img src="./src/img/2.jpg" alt="">
+    <div class="d2">
+      url背景图片
+    </div>
+    <div class="d3">
+      url背景大图片
+    </div>
+  </div>
+
+<script src="./dist/bundle.js"></script>
+<script>
+  /*
+  webpack 对 CommonJS（require() 语句） 、
+  AMD（define 和 require 语句） 、ES6（export、import 语句）、
+  css/sass/less（@import 语句）、
+  样式(url(...))或 HTML 文件(<img src=...>)中的图片链接
+  等的语法做了兼容
+
+  在项目的cmd中执行命令对main打包,自动寻找依赖文件：
+  webpack ./src/main.js ./dist/bundle.js
+  写了配置文件js就能直接使用"webpack"指令
+  json配置了"build": "webpack"会优先寻找本地的node_modules/.bin路径的，
+  没有就找全局的
+ */
+</script>
+</body>
+</html>

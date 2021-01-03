@@ -7,9 +7,9 @@ bilibili URL：https://space.bilibili.com/36139192
   
 ### 二.webpack简介  
 webpack官方的解释
-```text
-At its core，**webpack** is a *static module bundler* for modern JavaScript applications.
-从本质上来讲，webpack是一个现代的JavaScript应用的静态**模块打包**工具。
-```
+  
+`At its core，**webpack** is a *static module bundler* for modern JavaScript applications.  `
+`从本质上来讲，webpack是一个现代的JavaScript应用的静态**模块打包**工具。  `
+  
 它对 CommonJS（require() 语句）AMD（define 和 require 语句） 、ES6（export、import 语句）css/sass/less（@import 语句）样式(url ...)或 HTML 文件(img src=...)中的图片链接等的语法做了兼容  
   

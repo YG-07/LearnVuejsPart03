@@ -208,7 +208,7 @@ new Vue({
     }
   },
 ```
-使用时，利用别名导入：`import Vue from 'vue`  
+使用时，利用别名导入：`import Vue from 'vue'`  
 
 #### 1.1.3 对Vue实例进行优化
 【文本笔记-web单&多页面方式】(了解)
@@ -254,4 +254,10 @@ resolve:{
 }
 ```
   
+### 二、webpack的plugin插件 (86-89)
+#### 2.1 安装plugin插件
+1. 通过npm安装（webpack内置了一下插件）
+2. 在webpack.config.js的plugins属性里配置插件
+
 -----------文件夹 06-webpack配置分离 知识-----------  
+

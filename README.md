@@ -80,24 +80,17 @@ npm run build
 #### 2.1 认识并安装loader
 *loader* 用于对模块的源代码进行转换。loader 可以使你在 import 或"加载"模块时预处理文件  
 #### 2.2 安装loader处理main.js依赖文件
-* 在main.js和webpack.config.js的rules数组中的操作：
-<!-- 
-```Shell
-```
-```javaScript
-```
-cmd指令   安装：
-main.js   导入：
-webpack.config.js   配置：
- -->
- （注意代码配置的位置，安装loader在CMD中、导入在main.js中、配置在webpack.config.js中，其他则是对应的依赖文件中！）  
-* 1.使用commonJS模块化规范
-导入：`const {add,mul} = require('./clac.js')` ，calc.js导出：`module.exports={add,mul}`  
-* 2.使用ES6模块化规范
-导入：`import * as info from './info.js'`，info.js导出：`export {name,age,height}`  
-* 3.依赖css文件,需要loader
-导入：`require('./css/normal.css')`，下载2个loader：  
-安装：`npm install --save-dev css-loader@2.0.2 `和`npm install style-loader@0.23.1 --save-dev`  
+* 本节是手动配置loader！利于理解loader的工作原理，步骤：**导出、导入、安装、配置**
+`注意代码块使用位置，安装loader在CMD中、导入在main.js中、配置在webpack.config.js的rules属性中添加，导出则使用对应js语法`   
+#### 2.2.1.使用commonJS模块化规范
+导入：`const {add,mul} = require('./clac.js')`  
+，calc.js导出：`module.exports={add,mul}`  
+#### 2.2.2.使用ES6模块化规范
+导入：`import * as info from './info.js'`  
+，info.js导出：`export {name,age,height}`  
+#### 2.2.3.依赖css文件,需要loader
+导入：`require('./css/normal.css')`  
+下载2个loader，安装：`npm install --save-dev css-loader@2.0.2 `和`npm install style-loader@0.23.1 --save-dev`  
 配置：  
 ```javaScript
 //css样式依赖规则
@@ -106,7 +99,7 @@ webpack.config.js   配置：
   use: ['style-loader','css-loader' ]
 },
 ```
-* 4.依赖less文件
+#### 2.2.4.依赖less文件
 导入：`require('./css/special.less')`  
 安装：`npm install --save-dev less-loader@4.1.0 less`  
 配置：
@@ -123,7 +116,7 @@ webpack.config.js   配置：
   }]
 },
 ```
-* 5.url小图片(文件)依赖
+#### 2.2.5.url小图片(文件)依赖
 安装：`npm install --save-dev url-loader@1.1.2`  
 使用，如：样式里的：`background: url("../img/bg.jpg");`  
 配置:
@@ -146,19 +139,19 @@ webpack.config.js   配置：
   ]
 },
 ```
-* 6.文件依赖，对于大图片、文件的依赖
+#### 2.2.6.文件依赖，对于大图片、文件的依赖
 之前基础上安装：`npm install --save-dev file-loader@3.0.1`  
-* 7.将ES6语法转ES5，使用babel,3个东西，打包的js文件就没有ES6语法了
+#### 2.2.7.将ES6语法转ES5，使用babel,3个东西，打包的js文件就没有ES6语法了
 安装：`npm install --save-dev babel-loader@7 babel-core babel-preset-es2015`  
+```Shell
+babel是一个JS编译器，用来转换最新的JS语法，比如把ES6, ES7等语法转  
+化成ES5语法，从而能够在大部分浏览器中运行。像箭头函数，就可以做转换。  
+babel在执行过程中，分三步：先分析(parsing)、再转化、最后生成代码。  
+```
 导入：`const {add,mul} = require('./clac.js')`  
 配置：
 ```javaScript
 //ES6语法转换
-/*
-babel是一个JS编译器，用来转换最新的JS语法，比如把ES6, ES7等语法转化成ES5语法，
-从而能够在大部分浏览器中运行。像箭头函数，就可以做转换。babel在执行过程中，
-分三步：先分析(parsing)、再转化、最后生成代码。
-*/
 {
   test: /\.js$/,
   //exclude排除，不用转换webpack的js文件，include包含
@@ -171,6 +164,94 @@ babel是一个JS编译器，用来转换最新的JS语法，比如把ES6, ES7等
   }
 }
 ```
+  
 -----------文件夹 04-webpack的Vue配置 知识-----------  
-### 一、webpack对Vue的使用配置 (83-)
+### 一、webpack引入Vue.js 配置并优化 (83-85)
+#### 1.1 安装Vue模块的loader
+#### 1.1.1 依赖Vue模块：
+* 注：vue的安装方式：1.直接下载Vue.js，2.CDN引入，3.npm安装Vue模块(使用)
+(发布时也依赖)安装：`npm install vue --save`  
+导入并使用：`import App from './vue/App.vue'`  
+```javaScript
+new Vue({
+  el:'#app',
+  //component注册组件，template使用组件
+  template:'<App/>',
+  components:{
+    App
+  }
+})
+```
+配置：  
+```javaScript
+//vue
+{
+  test: /\.vue$/,
+  use:{
+    loader:'vue-loader'
+  }
+}
+```
+#### 1.1.2 Vue实例编译问题，解决：
+  * runtime-only: 不能有任何template  
+  * runtime-compiler: 可以使用template  
+指定打包的版本，添加**resolve**属性，设置别名**alias**属性，配置：  
+```javaScript
+//vue的template构建解决方案，配置根属性
+  resolve:{
+    //可省略的后缀
+    extensions:['.js','.css','.vue'],
+    //alias:别名
+    alias:{
+      //$表示结尾,vue.esm(es module)包含compiler
+      'vue$':'vue/dist/vue.esm.js'
+    }
+  },
+```
+使用时，利用别名导入：`import Vue from 'vue`  
+
+#### 1.1.3 对Vue实例进行优化
+【文本笔记-web单&多页面方式】(了解)
+* 新建vue/app.js，之后可以新建其他组件的js  
+```javaScript
+//导出App组件
+export default {
+  template: `
+    <div>
+      <h2>{{message}}</h2>
+      <button @click="btnClick">按钮</button>
+      <h2>{{name}}</h2>
+    </div>
+  `,
+  data(){return {...}},
+  methods:{...},...
+}
+```
+* template和el属性同时存在，el会绑定template定义的模板，组件只使用template属性  
+导入：`import App from './vue/app.js`  
+
+#### 1.1.4 Vue的最终解决方案.vue文件
+对.vue文件封装，安装vue-loader和vue-template-compiler，加载和编译  
+* .vue文件将template、script、style分离成3个标签
+安装：`npm install --save-dev vue-loader@13.0.0 vue-template-compiler@2.5.21`  
+导入：`import App from './vue/App.vue'`  
+配置：
+```javaScript
+//vue
+{
+  test: /\.vue$/,
+  use:{
+    loader:'vue-loader'
+  }
+}
+```
+#### 1.2 关于后缀的省略
+在配置文件的resolve添加extensions属性的数组  
+```javaScript
+resolve:{
+    //可省略的后缀
+    extensions:['.js','.css','.vue'],
+}
+```
+  
 -----------文件夹 06-webpack配置分离 知识-----------  

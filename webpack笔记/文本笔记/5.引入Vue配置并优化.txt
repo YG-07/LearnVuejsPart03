@@ -33,6 +33,7 @@ new Vue({
       'vue$':'vue/dist/vue.esm.js'
     }
   },
+利用别名导入：import Vue from 'vue
 
 2.对Vue实例进行优化
 template和el属性同时存在，前者会替换后者

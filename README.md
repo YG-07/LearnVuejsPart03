@@ -83,95 +83,94 @@ npm run build
 * 在main.js和webpack.config.js的rules数组中的操作：
 <!-- 
 ```Shell
-
 ```
 ```javaScript
-
 ```
-cmd指令
-安装：<table><tr><td bgcolor=black><font color=white> </font></td></tr></table>
-main.js
-导入：<table><tr><td bgcolor=#7FFF00> </td></tr></table>
-webpack.config.js
-配置：<table><tr><td bgcolor=#FF7F50> </td></tr></table>
+cmd指令   安装：
+main.js   导入：
+webpack.config.js   配置：
  -->
- （注意代码配置的位置，黑底代码在CMD中、绿底在main.js中、橙底在webpack.config.js中，其他则是对应的依赖文件中！）  
+ （注意代码配置的位置，安装loader在CMD中、导入在main.js中、配置在webpack.config.js中，其他则是对应的依赖文件中！）  
 * 1.使用commonJS模块化规范
-导入：<table><tr><td bgcolor=#7FFF00>const {add,mul} = require('./clac.js')</td></tr></table>  
-calc.js导出：`module.exports={add,mul}`  
-  
+导入：`const {add,mul} = require('./clac.js')` ，calc.js导出：`module.exports={add,mul}`  
 * 2.使用ES6模块化规范
-导入：<table><tr><td bgcolor=#7FFF00>import * as info from './info.js'</td></tr></table>  
-info.js导出：`export {name,age,height}`  
-  
+导入：`import * as info from './info.js'`，info.js导出：`export {name,age,height}`  
 * 3.依赖css文件,需要loader
-导入：<table><tr><td bgcolor=#7FFF00>require('./css/normal.css')</td></tr></table>  
-下载2个loader：
-安装：<table><tr><td bgcolor=black><font color=white>
-  npm install --save-dev css-loader@2.0.2  
-  npm install style-loader@0.23.1 --save-dev</font></td></tr></table>  
-配置css样式依赖规则：  
-//css
-      {
-        test: /\.css$/,
-        use: ['style-loader','css-loader' ]
-      },
-
+导入：`require('./css/normal.css')`，下载2个loader：  
+安装：`npm install --save-dev css-loader@2.0.2 `和`npm install style-loader@0.23.1 --save-dev`  
+配置：  
+```javaScript
+//css样式依赖规则
+{
+  test: /\.css$/,
+  use: ['style-loader','css-loader' ]
+},
+```
 * 4.依赖less文件
-require('./css/special.less')
-  npm install --save-dev less-loader@4.1.0 less
-配置：//less
-      {
-        test: /\.less$/,
-        use: [{
-          loader: "style-loader" // creates style nodes from JS strings
-        }, {
-          loader: "css-loader" // translates CSS into CommonJS
-        }, {
-          loader: "less-loader" // compiles Less to CSS
-        }]
-      },
-
-* 5.url小图片依赖
-  npm install --save-dev url-loader@1.1.2
-如：样式里的：background: url("../img/bg.jpg");
-配置//img
-      {
-        test: /\.(png|jpg|gif|jpeg)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              //默认:8KB,8192,图片大小bytes
-              // 小于limit用url-loader，否则用file-loader,
-              // 自动通过32位hash值命名
-              limit: 30000,
-              //打包输出规范命名，默认变量：文件名，去8位hash值，原后缀
-              name:'img/[name].[hash:8].[ext]'
-            }
-          }
-        ]
-      },
-
-* 6.文件依赖，对于大图片、文件的依赖
-  npm install --save-dev file-loader@3.0.1
-
-* 7.将ES6语法转ES5，使用babel,3个东西，打包的js文件就没有ES6语法了
-  npm install --save-dev babel-loader@7 babel-core babel-preset-es2015
-const {add,mul} = require('./clac.js')
-配置：//js语法转换
-      {
-        test: /\.js$/,
-        //exclude排除，不用转换webpack的js文件，include包含
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['es2015']
-          }
-        }
+导入：`require('./css/special.less')`  
+安装：`npm install --save-dev less-loader@4.1.0 less`  
+配置：
+```javaScript
+//less
+{
+  test: /\.less$/,
+  use: [{
+    loader: "style-loader" // creates style nodes from JS strings
+  }, {
+    loader: "css-loader" // translates CSS into CommonJS
+  }, {
+    loader: "less-loader" // compiles Less to CSS
+  }]
+},
+```
+* 5.url小图片(文件)依赖
+安装：`npm install --save-dev url-loader@1.1.2`  
+使用，如：样式里的：`background: url("../img/bg.jpg");`  
+配置:
+```javaScript
+//img
+{
+  test: /\.(png|jpg|gif|jpeg)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        //默认:8KB,8192,图片大小bytes
+        // 小于limit用url-loader，否则用file-loader,
+        // 自动通过32位hash值命名
+        limit: 30000,
+        //打包输出规范命名，默认变量：文件名，去8位hash值，原后缀
+        name:'img/[name].[hash:8].[ext]'
       }
-
+    }
+  ]
+},
+```
+* 6.文件依赖，对于大图片、文件的依赖
+之前基础上安装：`npm install --save-dev file-loader@3.0.1`  
+* 7.将ES6语法转ES5，使用babel,3个东西，打包的js文件就没有ES6语法了
+安装：`npm install --save-dev babel-loader@7 babel-core babel-preset-es2015`  
+导入：`const {add,mul} = require('./clac.js')`  
+配置：
+```javaScript
+//ES6语法转换
+/*
+babel是一个JS编译器，用来转换最新的JS语法，比如把ES6, ES7等语法转化成ES5语法，
+从而能够在大部分浏览器中运行。像箭头函数，就可以做转换。babel在执行过程中，
+分三步：先分析(parsing)、再转化、最后生成代码。
+*/
+{
+  test: /\.js$/,
+  //exclude排除，不用转换webpack的js文件，include包含
+  exclude: /(node_modules|bower_components)/,
+  use: {
+    loader: 'babel-loader',
+    options: {
+      presets: ['es2015']
+    }
+  }
+}
+```
 -----------文件夹 04-webpack的Vue配置 知识-----------  
 ### 一、webpack对Vue的使用配置 (83-)
 -----------文件夹 06-webpack配置分离 知识-----------  

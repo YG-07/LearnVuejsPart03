@@ -45,6 +45,8 @@ npm install webpack@3.6.0 --save-dev
 * webpack打包操作
 ```Shell
 webpack ./src/main.js ./dist/bundle.js
+# 映射build之后使用，修改了项目都要编译再运行！
+npm run build
 ```
 #### 1.3 配置webpack.config.js和package.json  
 * 1.创建webpack.config.js,入口和出口属性，出口需要动态获取绝对路径
@@ -254,10 +256,57 @@ resolve:{
 }
 ```
   
-### 二、webpack的plugin插件 (86-89)
-#### 2.1 安装plugin插件
+### 二、webpack的plugin插件原理和使用 (86-89)
+#### 2.1 plugin是什么？
+* plugin是插件的意思，通常是用于对某个现有的架构进行扩展。
+* webpack中的插件，就是对webpack现有功能的各种扩展，比如打包优化，文件压缩等等。
+#### 2.2 loader和plugin区别
+* loader主要用于转换某些类型的模块，它是一个转换器。
+* plugin是插件，它是对webpack本身的扩展，是一个扩展器。
+#### 2.1 安装使用plugin插件的步骤
 1. 通过npm安装（webpack内置了一下插件）
-2. 在webpack.config.js的plugins属性里配置插件
-
+2. 在webpack.config.js的`plugins:\[...\]`属性里配置插件
+#### 2.1.1 添加版权的Plugin
+配置导入和使用：  
+```javaScript
+const webpack=require('webpack')
+new webpack.BannerPlugin('最终版权归aaa所有')
+```
+  
+#### 2.1.2 打包html的plugin
+将index.html打包到dist，安装：`npm install html-webpack-plugin@3.2.0 --save-dev`  
+配置导入和使用：  
+```javaScript
+const HtmlWebpackPlugin=require('html-webpack-plugin')
+//使用插件打包时，注释输出文件夹路径
+//publicPath:'dist/'
+new HtmlWebpackPlugin({
+  template: 'index.html'
+}),
+```
+  
+#### 2.1.3 js压缩(丑化)的plugin
+对打包的bundle.js压缩，删除注释、变量简化等，安装：`npm install uglifyjs-webpack-plugin@1.1.1 --save-dev`  
+配置导入和使用：  
+```javaScript
+const UglifyjsWebpackPlugin=require('uglifyjs-webpack-plugin')
+//开发过程中不用js丑化，避免变量名的改变
+new UglifyjsWebpackPlugin()
+```
+  
+#### 2.2 搭建本地服务器
+基于node，使用express框架，自动刷新。真正发布时，再build  
+安装：`npm install webpack-dev-server@2.9.1 --save-dev`  
+配置：
+```javaScript
+//根option的属性，开发时使用
+devServer:{
+  //先是本地服务的文件夹，inline页面实时刷新，--open配置是编译并打开浏览器
+  contentBase:'./dist',
+  inline:true
+  //还有其他属性：port端口默认8080，historyApiFallback在SPA中。
+ }
+```
+再配置json映射：`"dev":"webpack-dev-server --open"`，之后使用`npm run dev`开启  
 -----------文件夹 06-webpack配置分离 知识-----------  
 

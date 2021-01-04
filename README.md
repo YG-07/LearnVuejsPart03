@@ -3,7 +3,7 @@
 ### 一.资料整理来源  
 coderwhy老师  B站账号：ilovecoding  
 bilibili URL：https://space.bilibili.com/36139192  
-视频(76-94p) URL：https://www.bilibili.com/video/BV15741177Eh?p=76  
+视频(76-93p) URL：https://www.bilibili.com/video/BV15741177Eh?p=76  
   
 ### 二.webpack简介  
 * webpack官方的解释：
@@ -308,5 +308,57 @@ devServer:{
  }
 ```
 再配置json映射：`"dev":"webpack-dev-server --open"`，之后使用`npm run dev`开启  
+  
 -----------文件夹 06-webpack配置分离 知识-----------  
+### 一、webpack配置分离 (90)
+#### 1.1 对配置进行分离
+对webpack.config.js的配置进行分离，如：**基础、开发、发布**的配置  
+* 新建build文件夹
+  1. base，基础配置，如：entry、outpath、module、打包htmlplugin等，
+  注意输出路径应该是base.js的上一层`'../dist'`的文件夹  
+  2. dev，开发配置：devServer
+  3. prod，发布配置，如：各种plugins
+#### 1.2 对配置合并使用
+* 合并配置的插件，安装：`npm install webpack-merge@4.1.5 --seve-dev`  
+在prod和dev配置里分别合并base，导入：  
+```javaScript
+const webpackMerge=require('webpack-merge')
+const baseConfig=require('./base.config.js')
+module.exports=webpackMerge(baseConfig,{...})
+```
+* 合并后重新指定开发和发布的配置文件，用--config指定
+```JSON
+"build": "webpack --config ./build/prod.config.js",
+"dev": "webpack-dev-server --open --config ./build/dev.config.js"
+```
 
+-----------Vue CLI初步使用-----------  
+### 一、什么是Vue CLI (91-92)
+Vue CLI 官方URL：https://cli.vuejs.org/zh/  
+#### 1.1 CLI是什么
+* CLI是Command-Line Interface，翻译为命令行界面，但是俗称脚手架。
+* Vue CLI是一个官方发布vue.js 项目脚手架
+* 使用vue-cli可以快速搭建Vue开发环境以及对应的webpack配置
+#### 1.2 为什么使用CLI
+* 如果只是简单的写几个Vue的Demo程序，则不需要Vue CLI。但你在开发大型项目，那么你需要，并且必然需要使用Vue CLI
+* 使用Vuejs开发大型应用时，我们需要考虑代码目录结构、项目结构和部署、热加载、代码单元测试等事情。
+* 如果每个项目都要手动完成这些工作，那无疑效率比较低效，所以通常我们会使用一些脚手架工具来帮助完成这些事情。
+#### 1.3 安装和使用Vue CLI
+1. 安装Nodejs，版本要8.9以上
+2. 安装cnpm，由于用npm直接安装vue-cli2很慢，使用国内淘宝镜像的npm工具    
+安装：`npm install -g cnpm-registry=https://registry.npm.taobao.org`  
+3. 安装Vue CLI，使用cnpm工具，默认的3.x版本，也可以再安装2.x版本  
+安装：`cnpm install @vue/cli@3.2.1 -g` 和 `cnpm install @vue/cli-init -g`
+  
+### 二、用Vue CLI2创建项目 (92-93)
+##### 2.1 初始化项目
+* 指令：`vue init webpack 项目名`，项目名不能有大写！
+* 然后填写项目信息：
+项目名(生成后可更改)、项目描述、作者、runtime+compiler、vue-router(No)、ESLint(代码规范)-Standard、unit tests(No)、e2e tests(No)、use npm，安装初始化！  
+  
+#### 2.2 生成项目
+* 最终生成文件如图【图片截图-15.Vue CLI生成的项目】
+* vue-cli2生成的项目目录结构解析
+视频 URL：https://www.bilibili.com/video/BV15741177Eh?p=93  
+  
+-----------以上就是本节的全部知识-----------

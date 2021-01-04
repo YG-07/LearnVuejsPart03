@@ -358,7 +358,7 @@ Vue CLI 官方URL：https://cli.vuejs.org/zh/
   
 #### 2.2 生成项目
 * 最终生成文件如图【图片截图-15.Vue CLI生成的项目】
-* vue-cli2生成的项目目录结构解析
+* vue-cli2生成的项目目录结构解析  
 视频 URL：https://www.bilibili.com/video/BV15741177Eh?p=93  
   
 -----------以上就是本节的全部知识-----------
